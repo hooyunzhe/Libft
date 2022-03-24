@@ -11,11 +11,15 @@ SRCS_B	= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 
 SRCS_BB	= ft_numlen_bonus.c
 
-OBJS	= ${SRCS:.c=.o}
+SDIR	= src
+ODIR	= obj
+IDIR	= inc
 
-OBJS_B	= ${SRCS_B:.c=.o}
+OBJS	= ${addprefix ${ODIR}/, ${SRCS:.c=.o}}
 
-OBJS_BB	= ${SRCS_BB:.c=.o}
+OBJS_B	= ${addprefix ${ODIR}/, ${SRCS_B:.c=.o}}
+
+OBJS_BB	= ${addprefix ${ODIR}/, ${SRCS_BB:.c=.o}}
 
 NAME	= libft.a
 
@@ -25,8 +29,8 @@ MAKELIB	= ar rc
 
 CFLAGS	= -Wall -Wextra -Werror
 
-.c.o:
-	${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
+${ODIR}/%.o:	${SDIR}/%.c
+	${GCC} ${CFLAGS} -I${IDIR} -c $< -o $@
 
 ${NAME}:	${OBJS}
 	${MAKELIB} ${NAME} ${OBJS}
